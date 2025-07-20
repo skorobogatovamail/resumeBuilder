@@ -6,6 +6,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import SignInPage from './auth/SignInPage.tsx';
 import Home from './Home/Home.tsx';
 import Dashboard from './dashboard/Dashboard.tsx';
+import { ClerkProvider } from '@clerk/clerk-react';
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error('Missing Publishable Key');
+}
 
 const router = createBrowserRouter([
   {
@@ -29,6 +36,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <RouterProvider router={router} />
+    </ClerkProvider>
   </StrictMode>,
 );
