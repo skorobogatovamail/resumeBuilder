@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import SignInPage from './auth/SignInPage.tsx';
-import Home from './Home/Home.tsx';
-import Dashboard from './dashboard/Dashboard.tsx';
+import SignInPage from './pages/SignInPage.tsx';
+import Home from './pages/Home.tsx';
+import Dashboard from './pages/Dashboard.tsx';
 import { ClerkProvider } from '@clerk/clerk-react';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
@@ -19,14 +19,14 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: '/',
-        element: <Home />,
-      },
-      {
         path: '/dashboard',
         element: <Dashboard />,
       },
     ],
+  },
+  {
+    path: '/',
+    element: <Home />,
   },
   {
     path: '/signin',
