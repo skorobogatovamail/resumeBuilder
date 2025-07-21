@@ -1,12 +1,12 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.tsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import SignInPage from './pages/SignInPage.tsx';
-import Home from './pages/Home.tsx';
-import Dashboard from './pages/Dashboard.tsx';
 import { ClerkProvider } from '@clerk/clerk-react';
+import App from './App.tsx';
+import SignInPage from './pages/SignInPage.tsx';
+import './index.css';
+import Dashboard from './pages/Dashboard.tsx';
+import Home from './pages/Home.tsx';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -22,12 +22,13 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <Dashboard />,
       },
+      {
+        path: '/',
+        element: <Home />,
+      },
     ],
   },
-  {
-    path: '/',
-    element: <Home />,
-  },
+
   {
     path: '/signin',
     element: <SignInPage />,

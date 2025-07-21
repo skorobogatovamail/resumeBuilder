@@ -1,12 +1,9 @@
 import React from 'react';
+import { SignIn } from '@clerk/clerk-react';
 
 type SignInPageProps = {};
 
 const SignInPage: React.FC<SignInPageProps> = () => {
-  return (
-    <div className="flex justify-center items-center my-20">
-      <SignInPage />
-    </div>
-  );
+  return <SignIn />;
 };
 export default SignInPage;
