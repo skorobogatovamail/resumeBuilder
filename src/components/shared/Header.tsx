@@ -7,7 +7,7 @@ type HeaderProps = {};
 const Header: React.FC<HeaderProps> = () => {
   return (
     <div className="flex justify-between items-center py-3 px-5 shadow-md">
-      <img src="./logo.svg" alt="Logo" height={50} width={50} />
+      <img src="./logo.svg" alt="Logo" height={40} width={40} />
       <SignedIn>
         <UserButton />
       </SignedIn>
