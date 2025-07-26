@@ -1,18 +1,14 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ClerkProvider } from '@clerk/clerk-react';
+import { ToastContainer } from 'react-toastify';
+
 import App from './App.tsx';
-import SignInPage from './pages/SignInPage.tsx';
+
 import './index.css';
 import Dashboard from './pages/Dashboard.tsx';
 import Home from './pages/Home.tsx';
-
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key');
-}
+import EditResume from './components/shared/EditResume.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,19 +22,17 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
       },
+      {
+        path: '/dashboard/resume/:resumeId/edit',
+        element: <EditResume />,
+      },
     ],
-  },
-
-  {
-    path: '/signin',
-    element: <SignInPage />,
   },
 ]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <RouterProvider router={router} />
-    </ClerkProvider>
+    <RouterProvider router={router} />
+    <ToastContainer />
   </StrictMode>,
 );

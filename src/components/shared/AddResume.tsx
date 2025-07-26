@@ -1,19 +1,50 @@
-import { PlusSquare } from 'lucide-react';
+import { Loader, PlusSquare } from 'lucide-react';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
+import { addDoc, collection } from 'firebase/firestore';
+import { firestore } from '@/firebase';
 
 type AddResumeProps = {};
 
 const AddResume: React.FC<AddResumeProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [resumeTitle, setResumeTitle] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  //   const { user } = useUser();
+
+  const handleSubmit = async () => {
+    // if (!resumeTitle || !user?.id) {
+    //   return;
+    // }
+    setIsLoading(true);
+    try {
+      const data = {
+        title: resumeTitle,
+        // userId: user?.id,
+      };
+      const resumeCollection = collection(firestore, 'resumes');
+      await addDoc(resumeCollection, data);
+      toast.success('Resume added successfully');
+
+      // Закрываем диалог и сбрасываем состояние
+      setIsOpen(false);
+      setResumeTitle('');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Error adding resume');
+      console.error('Error adding document: ', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div>
       <div
@@ -28,16 +59,23 @@ const AddResume: React.FC<AddResumeProps> = () => {
       <Dialog open={isOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogTitle>Create New Resume</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete your account and remove
-              your data from our servers.
+              <p>Add title for ypur new resume</p>
+              <Input
+                className="my-2"
+                placeholder="Full Stack Developer"
+                onChange={(e) => setResumeTitle(e.target.value)}
+                value={resumeTitle}
+              />
             </DialogDescription>
             <div className="flex justify-end gap-2">
               <Button variant="secondary" onClick={() => setIsOpen(false)}>
                 Cancel
               </Button>
-              <Button>Create</Button>
+              <Button onClick={handleSubmit} disabled={!resumeTitle || isLoading}>
+                {isLoading ? <Loader className="animate-spin" /> : 'Create'}
+              </Button>
             </div>
           </DialogHeader>
         </DialogContent>
