@@ -5,6 +5,7 @@ import { auth } from '@/firebase';
 import { Button } from '../ui/button';
 import { LogOut } from 'lucide-react';
 import { toast } from 'react-toastify';
+import UserAvatar from './UserAvatar';
 
 type HeaderProps = {};
 
@@ -28,9 +29,12 @@ const Header: React.FC<HeaderProps> = () => {
       <img src="./logo.svg" alt="Logo" height={40} width={40} />
 
       {user ? (
-        <Button onClick={handleLogout}>
-          <LogOut />
-        </Button>
+        <div className="flex items-center gap-2">
+          <UserAvatar user={user} />
+          <Button onClick={handleLogout}>
+            <LogOut />
+          </Button>
+        </div>
       ) : (
         <GoogleAuth />
       )}
