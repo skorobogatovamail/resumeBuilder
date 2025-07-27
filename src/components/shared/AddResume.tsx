@@ -1,5 +1,5 @@
 import { Loader, PlusSquare } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { toast } from 'react-toastify';
 import {
   Dialog,
@@ -13,6 +13,7 @@ import { Button } from '../ui/button';
 import { addDoc, collection } from 'firebase/firestore';
 import { auth, firestore } from '@/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 
 type AddResumeProps = {};
 
@@ -21,6 +22,7 @@ const AddResume: React.FC<AddResumeProps> = () => {
   const [resumeTitle, setResumeTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [user] = useAuthState(auth);
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (!resumeTitle || !user?.uid) {
@@ -33,11 +35,12 @@ const AddResume: React.FC<AddResumeProps> = () => {
         userId: user?.uid,
       };
       const resumeCollection = collection(firestore, 'resumes');
-      await addDoc(resumeCollection, data);
+      const newResume = await addDoc(resumeCollection, data);
       toast.success('Resume added successfully');
 
       setIsOpen(false);
       setResumeTitle('');
+      navigate(`/dashboard/resume/${newResume.id}/edit`);
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Error adding resume');
       console.error('Error adding document: ', error);
