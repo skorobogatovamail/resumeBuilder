@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = () => {
       {user ? (
         <div className="flex items-center gap-2">
           <UserAvatar user={user} />
-          <Button onClick={handleLogout}>
+          <Button onClick={handleLogout} className="hover:scale-105 hover:shadow-md">
             <LogOut />
           </Button>
         </div>

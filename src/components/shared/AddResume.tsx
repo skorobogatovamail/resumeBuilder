@@ -11,7 +11,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '../ui/button';
 import { addDoc, collection } from 'firebase/firestore';
-import { firestore } from '@/firebase';
+import { auth, firestore } from '@/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 type AddResumeProps = {};
 
@@ -19,23 +20,22 @@ const AddResume: React.FC<AddResumeProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [resumeTitle, setResumeTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  //   const { user } = useUser();
+  const [user] = useAuthState(auth);
 
   const handleSubmit = async () => {
-    // if (!resumeTitle || !user?.id) {
-    //   return;
-    // }
+    if (!resumeTitle || !user?.uid) {
+      return;
+    }
     setIsLoading(true);
     try {
       const data = {
         title: resumeTitle,
-        // userId: user?.id,
+        userId: user?.uid,
       };
       const resumeCollection = collection(firestore, 'resumes');
       await addDoc(resumeCollection, data);
       toast.success('Resume added successfully');
 
-      // Закрываем диалог и сбрасываем состояние
       setIsOpen(false);
       setResumeTitle('');
     } catch (error) {
