@@ -1,23 +1,27 @@
-import { firestore } from '@/firebase';
-import { collection, doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { firestore } from '@/firebase';
+import { collection, doc, getDoc } from 'firebase/firestore';
+import ResumeForm from './ResumeForm';
+import ResumePreview from './ResumePreview';
+import type { Resume } from '@/types/Resume';
+import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 
 type EditResumeProps = {};
 
 const EditResume: React.FC<EditResumeProps> = () => {
   const { resumeId } = useParams();
-  const [data, setData] = useState({});
+  const [resumeInfo, setResumeInfo] = useState<Resume | {}>({});
 
   useEffect(() => {
     const fetchData = async () => {
-      const resumesCollection = collection(firestore, 'resume');
+      const resumesCollection = collection(firestore, 'resumes');
 
       const resumeRef = doc(resumesCollection, resumeId);
       const resumeSnap = await getDoc(resumeRef);
       if (resumeSnap.exists()) {
         const resumeData = resumeSnap.data();
-        setData(resumeData);
+        setResumeInfo(resumeData);
       }
     };
 
@@ -25,9 +29,11 @@ const EditResume: React.FC<EditResumeProps> = () => {
   }, [resumeId]);
 
   return (
-    <div>
-      Have a good coding
-      {/* {data} */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 p-10 ">
+      <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
+        <ResumeForm />
+        <ResumePreview />
+      </ResumeInfoContext.Provider>
     </div>
   );
 };
