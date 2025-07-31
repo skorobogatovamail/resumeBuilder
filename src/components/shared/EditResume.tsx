@@ -6,26 +6,26 @@ import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
 import type { Resume } from '@/types/Resume';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+import dummy from '@/data/dummy';
 
-type EditResumeProps = {};
-
-const EditResume: React.FC<EditResumeProps> = () => {
+const EditResume: React.FC = () => {
   const { resumeId } = useParams();
-  const [resumeInfo, setResumeInfo] = useState<Resume | {}>({});
+  const [resumeInfo, setResumeInfo] = useState<Resume>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resumesCollection = collection(firestore, 'resumes');
+    // const fetchData = async () => {
+    //   const resumesCollection = collection(firestore, 'resumes');
 
-      const resumeRef = doc(resumesCollection, resumeId);
-      const resumeSnap = await getDoc(resumeRef);
-      if (resumeSnap.exists()) {
-        const resumeData = resumeSnap.data();
-        setResumeInfo(resumeData);
-      }
-    };
+    //   const resumeRef = doc(resumesCollection, resumeId);
+    //   const resumeSnap = await getDoc(resumeRef);
+    //   if (resumeSnap.exists()) {
+    //     const resumeData = resumeSnap.data();
+    //     setResumeInfo(resumeData);
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
+    setResumeInfo(dummy);
   }, [resumeId]);
 
   return (
