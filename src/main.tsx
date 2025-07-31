@@ -6,9 +6,9 @@ import { ToastContainer } from 'react-toastify';
 import App from './App.tsx';
 
 import './index.css';
-import Dashboard from './pages/Dashboard.tsx';
-import Home from './pages/Home.tsx';
-import EditResume from './components/shared/EditResume.tsx';
+import Dashboard from './components/pages/Dashboard/index.tsx';
+import Home from './components/pages/Home/index.tsx';
+import EditResume from './components/pages/EditResume/index.tsx';
 
 const router = createBrowserRouter([
   {

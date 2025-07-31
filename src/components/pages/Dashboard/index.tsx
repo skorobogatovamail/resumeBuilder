@@ -1,15 +1,13 @@
-import AddResume from '@/components/shared/AddResume';
-import ResumeCardItem from '@/components/shared/ResumeCardItem';
+import AddResume from '@/components/pages/Dashboard/components/AddResume';
+import ResumeCardItem from '@/components/pages/Dashboard/components/ResumeCardItem';
 import { auth, firestore } from '@/firebase';
 import type { Resume } from '@/types/Resume';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-type DashboardProps = {};
-
-const Dashboard: React.FC<DashboardProps> = () => {
-  const [user, loading, error] = useAuthState(auth);
+const Dashboard: React.FC = () => {
+  const [user, loading] = useAuthState(auth);
   const [resumeList, setResumeList] = useState<Resume[]>([]);
 
   useEffect(() => {

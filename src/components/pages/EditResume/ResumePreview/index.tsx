@@ -1,10 +1,10 @@
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import React, { useContext } from 'react';
-import PersonalDetailPreview from './PersonalDetailPreview';
-import EducationalPreview from './EducationalPreview';
-import SkillsPreview from './SkillsPreview';
-import ExperiencePreview from './ExperiencePreview';
-import SummaryPreview from './SummaryPreview';
+import PersonalDetailPreview from './components/PersonalDetailPreview';
+import SummaryPreview from './components/SummaryPreview';
+import ExperiencePreview from './components/ExperiencePreview';
+import EducationalPreview from './components/EducationalPreview';
+import SkillsPreview from './components/SkillsPreview';
 
 const ResumePreview: React.FC = () => {
   const context = useContext(ResumeInfoContext);

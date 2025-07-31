@@ -3,9 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-type HomeProps = {};
-
-const Home: React.FC<HomeProps> = () => {
+const Home: React.FC = () => {
   return (
     <div className="flex flex-col justify-center h-screen  md:px-20 lg:px-32">
       <div className="flex gap-8 items-center">

@@ -1,5 +1,5 @@
 import { Loader, PlusSquare } from 'lucide-react';
-import React, { use, useState } from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import {
   Dialog,
@@ -9,15 +9,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Button } from '../ui/button';
+import { Button } from '../../../ui/button';
 import { addDoc, collection } from 'firebase/firestore';
 import { auth, firestore } from '@/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 
-type AddResumeProps = {};
-
-const AddResume: React.FC<AddResumeProps> = () => {
+const AddResume: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [resumeTitle, setResumeTitle] = useState('');
   const [isLoading, setIsLoading] = useState(false);

@@ -7,9 +7,7 @@ import { LogOut } from 'lucide-react';
 import { toast } from 'react-toastify';
 import UserAvatar from './UserAvatar';
 
-type HeaderProps = {};
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const [user] = useAuthState(auth);
   const [signOut] = useSignOut(auth);
 
