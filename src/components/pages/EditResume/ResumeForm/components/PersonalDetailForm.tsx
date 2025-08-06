@@ -68,25 +68,38 @@ const PersonalDetailForm: React.FC = () => {
         </div>
         <div>
           <label className="text-sm">Last Name</label>
-          <Input name="lastName" required placeholder="Doe" value={resumeInfo?.lastName}></Input>
+          <Input
+            name="lastName"
+            required
+            onChange={handleInputChange}
+            placeholder="Doe"
+            value={resumeInfo?.lastName}
+          ></Input>
         </div>
         <div>
           <label className="text-sm col-span-2">Job Title</label>
           <Input
             name="jobTitle"
+            onChange={handleInputChange}
             placeholder="Sowtware Developer"
             value={resumeInfo?.jobTitle}
           ></Input>
         </div>
         <div>
           <label className="text-sm col-span-2">Address</label>
-          <Input name="address" placeholder="Los Angeles" value={resumeInfo?.address}></Input>
+          <Input
+            name="address"
+            onChange={handleInputChange}
+            placeholder="Los Angeles"
+            value={resumeInfo?.address}
+          ></Input>
         </div>
         <div>
           <label className="text-sm">Email</label>
           <Input
             name="email"
             type="email"
+            onChange={handleInputChange}
             placeholder="email@example.com"
             value={resumeInfo?.email}
           ></Input>
@@ -96,6 +109,7 @@ const PersonalDetailForm: React.FC = () => {
           <Input
             name="phone"
             type="phone"
+            onChange={handleInputChange}
             placeholder="+1 234 567 89 01"
             value={resumeInfo?.phone}
           ></Input>

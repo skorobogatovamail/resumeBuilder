@@ -6,7 +6,7 @@ import ResumeForm from './ResumeForm';
 import ResumePreview from './ResumePreview';
 import type { Resume } from '@/types/Resume';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
-import dummy from '@/data/dummy';
+// import dummy from '@/data/dummy';
 
 const EditResume: React.FC = () => {
   const { resumeId } = useParams();
@@ -20,11 +20,7 @@ const EditResume: React.FC = () => {
       const resumeSnap = await getDoc(resumeRef);
       if (resumeSnap.exists()) {
         const resumeData = resumeSnap.data();
-        if (!resumeData.firstName) {
-          setResumeInfo({ ...resumeData, ...dummy, id: resumeSnap.id });
-        } else {
-          setResumeInfo(resumeData);
-        }
+        setResumeInfo({ ...resumeData, id: resumeId });
       }
     };
 
