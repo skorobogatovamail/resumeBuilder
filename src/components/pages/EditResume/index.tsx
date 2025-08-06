@@ -13,19 +13,22 @@ const EditResume: React.FC = () => {
   const [resumeInfo, setResumeInfo] = useState<Resume>();
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const resumesCollection = collection(firestore, 'resumes');
+    const fetchData = async () => {
+      const resumesCollection = collection(firestore, 'resumes');
 
-    //   const resumeRef = doc(resumesCollection, resumeId);
-    //   const resumeSnap = await getDoc(resumeRef);
-    //   if (resumeSnap.exists()) {
-    //     const resumeData = resumeSnap.data();
-    //     setResumeInfo(resumeData);
-    //   }
-    // };
+      const resumeRef = doc(resumesCollection, resumeId);
+      const resumeSnap = await getDoc(resumeRef);
+      if (resumeSnap.exists()) {
+        const resumeData = resumeSnap.data();
+        if (!resumeData.firstName) {
+          setResumeInfo({ ...resumeData, ...dummy, id: resumeSnap.id });
+        } else {
+          setResumeInfo(resumeData);
+        }
+      }
+    };
 
-    // fetchData();
-    setResumeInfo(dummy);
+    fetchData();
   }, [resumeId]);
 
   return (

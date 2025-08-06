@@ -1,23 +1,53 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
-import React, { useContext } from 'react';
+import { auth, firestore } from '@/firebase';
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useContext, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { toast } from 'react-toastify';
+
+function removeUndefined<T extends object>(obj: T): Partial<T> {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined)) as Partial<T>;
+}
 
 const PersonalDetailForm: React.FC = () => {
+  const [user] = useAuthState(auth);
+  const [isLoading, setIsLoading] = useState(false);
+
   const context = useContext(ResumeInfoContext);
   if (!context) return null;
   const { resumeInfo, setResumeInfo } = context;
 
-  const handleInputChange = (e: HTMLInputElement) => {
-    console.log(resumeInfo);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     if (resumeInfo && setResumeInfo) {
-      setResumeInfo({ ...resumeInfo, [e.name]: e.value });
+      setResumeInfo({ ...resumeInfo, [name]: value });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(resumeInfo);
+    if (!resumeInfo || !user?.uid) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const resumeCollection = collection(firestore, 'resumes');
+      const resumeRef = doc(resumeCollection, String(resumeInfo.id));
+      const resumeDoc = await getDoc(resumeRef);
+      if (!resumeDoc.exists()) {
+        await addDoc(resumeCollection, { ...resumeInfo, userId: user.uid });
+      } else {
+        await updateDoc(resumeRef, removeUndefined(resumeInfo) as Record<string, any>);
+      }
+      toast.success('Resume added successfully');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Error adding resume');
+      console.error('Error adding document: ', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -27,37 +57,54 @@ const PersonalDetailForm: React.FC = () => {
 
       <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
         <div>
-          <label>First Name</label>
+          <label className="text-sm">First Name</label>
           <Input
             name="firstName"
             required
             placeholder="John"
-            onChange={(e) => handleInputChange(e.target)}
+            onChange={handleInputChange}
+            value={resumeInfo?.firstName}
           ></Input>
         </div>
         <div>
-          <label>Last Name</label>
-          <Input name="lasttName" required placeholder="Doe"></Input>
+          <label className="text-sm">Last Name</label>
+          <Input name="lastName" required placeholder="Doe" value={resumeInfo?.lastName}></Input>
         </div>
         <div>
-          <label>Job Title</label>
-          <Input name="jobTitle" required placeholder="Sowtware Developer"></Input>
+          <label className="text-sm col-span-2">Job Title</label>
+          <Input
+            name="jobTitle"
+            placeholder="Sowtware Developer"
+            value={resumeInfo?.jobTitle}
+          ></Input>
         </div>
         <div>
-          <label>Address</label>
-          <Input name="address" required placeholder="Los Angeles"></Input>
+          <label className="text-sm col-span-2">Address</label>
+          <Input name="address" placeholder="Los Angeles" value={resumeInfo?.address}></Input>
         </div>
         <div>
-          <label>Email</label>
-          <Input name="email" type="email" required placeholder="email@example.com"></Input>
+          <label className="text-sm">Email</label>
+          <Input
+            name="email"
+            type="email"
+            placeholder="email@example.com"
+            value={resumeInfo?.email}
+          ></Input>
         </div>
         <div>
-          <label>Phone</label>
-          <Input name="phone" type="phone" required placeholder="+1 234 567 "></Input>
+          <label className="text-sm">Phone</label>
+          <Input
+            name="phone"
+            type="phone"
+            placeholder="+1 234 567 89 01"
+            value={resumeInfo?.phone}
+          ></Input>
         </div>
 
         <div className="mt-3 flex justify-end">
-          <Button type="submit">Save</Button>
+          <Button disabled={isLoading} type="submit">
+            Save
+          </Button>
         </div>
       </form>
     </div>

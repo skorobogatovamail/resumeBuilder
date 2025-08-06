@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
     };
 
     fetchData();
-  }, [user]);
+  }, [user, loading]);
 
   return (
     <div className="flex flex-col justify-center h-screen px-10 md:px-20 lg:px-32">

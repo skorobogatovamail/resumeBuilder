@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useAuthState, useSignOut } from 'react-firebase-hooks/auth';
 import GoogleAuth from './GoogleAuth';
 import { auth } from '@/firebase';
@@ -24,7 +25,9 @@ const Header: React.FC = () => {
   };
   return (
     <div className="flex justify-between items-center py-3 px-5 shadow-md">
-      <img src="./logo.svg" alt="Logo" height={40} width={40} />
+      <Link to="/">
+        <img src="logo.svg" alt="Logo" height={40} width={40} />
+      </Link>
 
       {user ? (
         <div className="flex items-center gap-2">
