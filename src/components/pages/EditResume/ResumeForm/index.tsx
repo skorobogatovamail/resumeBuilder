@@ -1,21 +1,60 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, firestore } from '@/firebase';
+import { toast } from 'react-toastify';
+import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import PersonalDetailForm from './components/PersonalDetailForm';
 import SummaryForm from './components/SummaryForm';
 import ExperienceForm from './components/ExperienceForm';
 import EducationForm from './components/EducationForm';
 import SkillsForm from './components/SkillsForm';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react';
+import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+
+function removeUndefined<T extends object>(obj: T): Partial<T> {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined)) as Partial<T>;
+}
 
 const ResumeForm: React.FC = () => {
+  const [user] = useAuthState(auth);
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const context = useContext(ResumeInfoContext);
+  if (!context) return null;
+  const { resumeInfo } = context;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!resumeInfo || !user?.uid) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const resumeCollection = collection(firestore, 'resumes');
+      const resumeRef = doc(resumeCollection, String(resumeInfo.id));
+      const resumeDoc = await getDoc(resumeRef);
+      if (!resumeDoc.exists()) {
+        await addDoc(resumeCollection, { ...resumeInfo, userId: user.uid });
+      } else {
+        await updateDoc(resumeRef, removeUndefined(resumeInfo) as Record<string, any>);
+      }
+      toast.success('Resume added successfully');
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : 'Error adding resume');
+      console.error('Error adding document: ', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const sections = [
-    <PersonalDetailForm />,
-    <SummaryForm />,
-    <EducationForm />,
-    <ExperienceForm />,
-    <SkillsForm />,
+    <PersonalDetailForm handleSubmit={handleSubmit} isLoading={isLoading} />,
+    <SummaryForm handleSubmit={handleSubmit} isLoading={isLoading} />,
+    <EducationForm handleSubmit={handleSubmit} isLoading={isLoading} />,
+    <ExperienceForm handleSubmit={handleSubmit} isLoading={isLoading} />,
+    <SkillsForm handleSubmit={handleSubmit} isLoading={isLoading} />,
   ];
 
   return (

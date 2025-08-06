@@ -1,8 +1,11 @@
 import React from 'react';
 
-type SkillsFormProps = {};
+type SkillsFormProps = {
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
+};
 
-const SkillsForm: React.FC<SkillsFormProps> = () => {
+const SkillsForm: React.FC<SkillsFormProps> = ({ handleSubmit, isLoading }) => {
   return (
     <div className="rounded-lg border-t-4 border-primary p-4 shadow-md">
       <h2 className="text-lg font-bold">Skills</h2>
