@@ -4,21 +4,19 @@ import { Input } from '@/components/ui/input';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 
 interface PersonalDetailFormProps {
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 }
 
-const PersonalDetailForm: React.FC<PersonalDetailFormProps> = ({ handleSubmit, isLoading }) => {
+const PersonalDetailForm: React.FC<PersonalDetailFormProps> = ({
+  handleInputChange,
+  handleSubmit,
+  isLoading,
+}) => {
   const context = useContext(ResumeInfoContext);
   if (!context) return null;
-  const { resumeInfo, setResumeInfo } = context;
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (resumeInfo && setResumeInfo) {
-      setResumeInfo({ ...resumeInfo, [name]: value });
-    }
-  };
+  const { resumeInfo } = context;
 
   return (
     <div className="rounded-lg border-t-4 border-primary p-4 shadow-md">

@@ -6,6 +6,6 @@ type SummaryPreviewProps = {
 };
 
 const SummaryPreview: React.FC<SummaryPreviewProps> = ({ resumeInfo }) => {
-  return <p className="text-xs">{resumeInfo?.summery}</p>;
+  return <p className="text-xs">{resumeInfo?.summary}</p>;
 };
 export default SummaryPreview;

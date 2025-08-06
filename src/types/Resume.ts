@@ -37,7 +37,7 @@ export interface Resume {
   address?: string;
   phone?: string;
   email?: string;
-  summery?: string;
+  summary?: string;
   experience?: Experience[];
   education?: Education[];
   skills?: Skill[];

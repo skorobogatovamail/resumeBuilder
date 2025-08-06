@@ -23,7 +23,7 @@ const ResumeForm: React.FC = () => {
 
   const context = useContext(ResumeInfoContext);
   if (!context) return null;
-  const { resumeInfo } = context;
+  const { resumeInfo, setResumeInfo } = context;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,12 +49,39 @@ const ResumeForm: React.FC = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (resumeInfo && setResumeInfo) {
+      setResumeInfo({ ...resumeInfo, [name]: value });
+    }
+  };
+
   const sections = [
-    <PersonalDetailForm handleSubmit={handleSubmit} isLoading={isLoading} />,
-    <SummaryForm handleSubmit={handleSubmit} isLoading={isLoading} />,
-    <EducationForm handleSubmit={handleSubmit} isLoading={isLoading} />,
-    <ExperienceForm handleSubmit={handleSubmit} isLoading={isLoading} />,
-    <SkillsForm handleSubmit={handleSubmit} isLoading={isLoading} />,
+    <PersonalDetailForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
+    <SummaryForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
+    <EducationForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
+    <ExperienceForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
+    <SkillsForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
   ];
 
   return (
