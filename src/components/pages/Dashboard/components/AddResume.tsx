@@ -1,6 +1,6 @@
 import { Loader, PlusSquare } from 'lucide-react';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import {
   Dialog,
   DialogContent,
@@ -34,13 +34,13 @@ const AddResume: React.FC = () => {
       };
       const resumeCollection = collection(firestore, 'resumes');
       const newResume = await addDoc(resumeCollection, data);
-      toast.success('Resume added successfully');
+      toast('Resume added successfully');
 
       setIsOpen(false);
       setResumeTitle('');
       navigate(`/dashboard/resume/${newResume.id}/edit`);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Error adding resume');
+      toast(error instanceof Error ? error.message : 'Error adding resume');
       console.error('Error adding document: ', error);
     } finally {
       setIsLoading(false);

@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import React, { useContext } from 'react';
 
@@ -20,20 +21,21 @@ const SummaryForm: React.FC<SummaryFormProps> = ({
   const { resumeInfo } = context;
 
   return (
-    <div className="rounded-lg border-t-4 border-primary p-4 shadow-md">
-      <h2 className="text-lg font-bold">Personal Detail</h2>
-      <p>Get started with the basic information</p>
+    <div className="rounded-lg border-t-4 border-primary p-4 shadow-md flex flex-col gap-4">
+      <h2 className="text-lg font-bold">Summary</h2>
+      <p>Generate the main imformation about your role</p>
 
       <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
         <div>
-          <label className="text-sm">First Name</label>
-          <Input
+          <label className="text-sm">Summary</label>
+          <Button className="">Generate with AI</Button>
+          <Textarea
             name="summary"
             required
-            placeholder="John"
             onChange={handleInputChange}
             value={resumeInfo?.summary}
-          ></Input>
+            rows={5}
+          ></Textarea>
         </div>
 
         <div className="mt-3 flex justify-end">

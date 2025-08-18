@@ -5,7 +5,7 @@ import GoogleAuth from './GoogleAuth';
 import { auth } from '@/firebase';
 import { Button } from '../ui/button';
 import { LogOut } from 'lucide-react';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import UserAvatar from './UserAvatar';
 
 const Header: React.FC = () => {
@@ -17,9 +17,8 @@ const Header: React.FC = () => {
       const success = await signOut();
       if (!success) throw new Error('Logout failed');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : String(error), {
+      toast(error instanceof Error ? error.message : String(error), {
         position: 'bottom-right',
-        autoClose: 3000,
       });
     }
   };

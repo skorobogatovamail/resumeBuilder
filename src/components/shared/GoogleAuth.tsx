@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '@/firebase';
 import { Button } from '../ui/button';
@@ -18,10 +18,10 @@ export default function GoogleAuth() {
 
     try {
       await signInWithPopup(auth, provider);
-      toast.success('Вход через Google выполнен успешно');
+      toast('Вход через Google выполнен успешно');
       navigate('/dashboard');
     } catch (error: any) {
-      toast.error('Ошибка авторизации через Google');
+      toast('Ошибка авторизации через Google');
       console.error('Google auth error:', error.message);
     }
   };

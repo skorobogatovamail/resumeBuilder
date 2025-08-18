@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '@/firebase';
-import { toast } from 'react-toastify';
+import { toast } from 'sonner';
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import PersonalDetailForm from './components/PersonalDetailForm';
 import SummaryForm from './components/SummaryForm';
@@ -40,16 +40,16 @@ const ResumeForm: React.FC = () => {
       } else {
         await updateDoc(resumeRef, removeUndefined(resumeInfo) as Record<string, any>);
       }
-      toast.success('Resume added successfully');
+      toast('Resume added successfully');
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : 'Error adding resume');
+      toast(error instanceof Error ? error.message : 'Error adding resume');
       console.error('Error adding document: ', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (resumeInfo && setResumeInfo) {
       setResumeInfo({ ...resumeInfo, [name]: value });

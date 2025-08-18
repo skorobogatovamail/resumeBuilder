@@ -19,7 +19,7 @@ const PersonalDetailForm: React.FC<PersonalDetailFormProps> = ({
   const { resumeInfo } = context;
 
   return (
-    <div className="rounded-lg border-t-4 border-primary p-4 shadow-md">
+    <div className="rounded-lg border-t-4 border-primary p-4 shadow-md  flex flex-col gap-4">
       <h2 className="text-lg font-bold">Personal Detail</h2>
       <p>Get started with the basic information</p>
 
