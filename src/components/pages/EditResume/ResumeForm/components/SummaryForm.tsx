@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+import { BrainIcon } from 'lucide-react';
 import React, { useContext } from 'react';
 
 type SummaryFormProps = {
@@ -25,19 +26,28 @@ const SummaryForm: React.FC<SummaryFormProps> = ({
       <h2 className="text-lg font-bold">Summary</h2>
       <p>Generate the main imformation about your role</p>
 
-      <form className="grid grid-cols-2 gap-4" onSubmit={handleSubmit}>
-        <div>
+      <form
+        // className="grid grid-cols-2 gap-4"
+        onSubmit={handleSubmit}
+      >
+        <div className="flex gap-4 justify-between mb-4 items-center pl-2">
           <label className="text-sm">Summary</label>
-          <Button className="">Generate with AI</Button>
+          <Button className="">
+            <BrainIcon className="mr-1 h-4 w-4" />
+            Generate with AI
+          </Button>
+        </div>
+
+        <div className="flex gap-4">
           <Textarea
             name="summary"
             required
             onChange={handleInputChange}
             value={resumeInfo?.summary}
-            rows={5}
+            rows={10}
+            className="h-[200px]"
           ></Textarea>
         </div>
-
         <div className="mt-3 flex justify-end">
           <Button disabled={isLoading} type="submit">
             Save
