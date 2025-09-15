@@ -1,12 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
+import { askAi } from '@/lib/yandexgpt';
 import { BrainIcon } from 'lucide-react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 type SummaryFormProps = {
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 };
@@ -17,24 +17,49 @@ const SummaryForm: React.FC<SummaryFormProps> = ({
   isLoading,
 }) => {
   const context = useContext(ResumeInfoContext);
-  if (!context) return;
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const { resumeInfo } = context;
+  if (!context) return null;
+
+  const { resumeInfo, setResumeInfo } = context;
+
+  const handleGenerateWithAI = async () => {
+    try {
+      setIsGenerating(true);
+
+      if (!resumeInfo) {
+        console.error('Resume info is null');
+        return;
+      }
+
+      const jobTitle = resumeInfo.jobTitle || 'Frontend Developer';
+      const generatedSummary = await askAi(jobTitle, resumeInfo?.summary);
+      console.log('Generated summary:', generatedSummary);
+
+      if (setResumeInfo) {
+        setResumeInfo({
+          ...resumeInfo,
+          summary: generatedSummary,
+        });
+      }
+    } catch (error) {
+      console.error('Ошибка при генерации текста:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="rounded-lg border-t-4 border-primary p-4 shadow-md flex flex-col gap-4">
       <h2 className="text-lg font-bold">Summary</h2>
-      <p>Generate the main imformation about your role</p>
+      <p>Create the main information about your role</p>
 
-      <form
-        // className="grid grid-cols-2 gap-4"
-        onSubmit={handleSubmit}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="flex gap-4 justify-between mb-4 items-center pl-2">
           <label className="text-sm">Summary</label>
-          <Button className="">
+          <Button type="button" className="" onClick={handleGenerateWithAI} disabled={isGenerating}>
             <BrainIcon className="mr-1 h-4 w-4" />
-            Generate with AI
+            {isGenerating ? 'Генерация...' : 'Generate with AI'}
           </Button>
         </div>
 
