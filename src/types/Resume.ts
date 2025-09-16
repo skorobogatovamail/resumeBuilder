@@ -1,13 +1,13 @@
 export interface Experience {
   id: number;
-  title: string;
+  position: string;
   companyName: string;
   city: string;
-  state: string;
+  country: string;
   startDate: string;
   endDate?: string;
   currentlyWorking?: boolean;
-  workSummery: string;
+  description: string;
 }
 
 export interface Education {

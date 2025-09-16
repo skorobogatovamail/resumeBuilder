@@ -34,7 +34,6 @@ const SummaryForm: React.FC<SummaryFormProps> = ({
 
       const jobTitle = resumeInfo.jobTitle || 'Frontend Developer';
       const generatedSummary = await askAi(jobTitle, resumeInfo?.summary);
-      console.log('Generated summary:', generatedSummary);
 
       if (setResumeInfo) {
         setResumeInfo({

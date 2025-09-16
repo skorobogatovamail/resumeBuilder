@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import PersonalDetailForm from './components/PersonalDetailForm';
 import SummaryForm from './components/SummaryForm';
-import ExperienceForm from './components/ExperienceForm';
+import ExperienceForm from './components/Experience/ExperienceForm';
 import EducationForm from './components/EducationForm';
 import SkillsForm from './components/SkillsForm';
 import { Button } from '@/components/ui/button';
@@ -67,17 +67,13 @@ const ResumeForm: React.FC = () => {
       handleSubmit={handleSubmit}
       isLoading={isLoading}
     />,
-    <EducationForm
-      handleInputChange={handleInputChange}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-    />,
-    <ExperienceForm
-      handleInputChange={handleInputChange}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-    />,
+    <ExperienceForm handleSubmit={handleSubmit} isLoading={isLoading} />,
     <SkillsForm
+      handleInputChange={handleInputChange}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+    />,
+    <EducationForm
       handleInputChange={handleInputChange}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
