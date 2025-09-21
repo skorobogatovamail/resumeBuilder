@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
-import { ExperienceItem } from './ExperienceItem';
-import type { Experience } from '@/types/Resume';
+// src/features/resume/components/form/experience/ExperienceForm.tsx
+import React, { memo } from 'react';
 import { Button } from '@/components/ui/button';
 import { PlusIcon, Trash } from 'lucide-react';
-import { useExperienceFormRedux } from '@/hooks/useExperienceFormRedux';
+import { useExperienceForm } from '@/features/resume/hooks/useExperienceForm';
 import { FormSection } from '../FormSection';
+import ExperienceItemWithHookForm from './ExperienceItemWithHookForm';
 
+/**
+ * Компонент формы опыта работы
+ * Позволяет пользователю добавлять, редактировать и удалять опыт работы
+ */
 const ExperienceForm: React.FC = () => {
   const { control, handleSubmit, onSubmit, fields, remove, addExperience, isLoading } =
-    useExperienceFormRedux();
+    useExperienceForm();
 
   return (
     <FormSection
@@ -35,10 +39,12 @@ const ExperienceForm: React.FC = () => {
 
         <Button type="button" onClick={addExperience} className="mt-4" variant="outline">
           <PlusIcon className="h-4 w-4 mr-2" />
-          Add Experience
+          Добавить опыт работы
         </Button>
       </div>
     </FormSection>
   );
 };
-export default ExperienceForm;
+
+// Используем memo для оптимизации производительности
+export default memo(ExperienceForm);

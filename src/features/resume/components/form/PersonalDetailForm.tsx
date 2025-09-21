@@ -1,26 +1,30 @@
-import React from 'react';
+// src/features/resume/components/form/PersonalDetailForm.tsx
+import React, { memo } from 'react';
 import { Input } from '@/components/ui/input';
-
 import { FormSection } from './FormSection';
-import { usePersonalDetailsRedux } from '@/hooks/usePersonalDetailsRedux';
+import { usePersonalDetails } from '@/features/resume/hooks/usePersonalDetails';
 
+/**
+ * Компонент формы личных данных
+ * Позволяет пользователю редактировать основную информацию о себе
+ */
 const PersonalDetailForm: React.FC = () => {
-  const { register, handleSubmit, onSubmit, errors, isLoading } = usePersonalDetailsRedux();
+  const { register, handleSubmit, onSubmit, errors, isLoading } = usePersonalDetails();
 
   return (
     <FormSection
-      sectionTitle="Personal Detail"
-      description="Get started with the basic information"
+      sectionTitle="Личные данные"
+      description="Начните с базовой информации о себе"
       onSave={handleSubmit(onSubmit)}
     >
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-sm">First Name</label>
+          <label className="text-sm">Имя</label>
           <Input {...register('firstName', { required: 'Имя обязательно' })} placeholder="Иван" />
           {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
         </div>
         <div>
-          <label className="text-sm">Last Name</label>
+          <label className="text-sm">Фамилия</label>
           <Input
             {...register('lastName', { required: 'Фамилия обязательна' })}
             placeholder="Иванов"
@@ -28,11 +32,11 @@ const PersonalDetailForm: React.FC = () => {
           {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName.message}</p>}
         </div>
         <div>
-          <label className="text-sm col-span-2">Job Title</label>
+          <label className="text-sm col-span-2">Должность</label>
           <Input {...register('jobTitle')} placeholder="Разработчик ПО" />
         </div>
         <div>
-          <label className="text-sm col-span-2">Address</label>
+          <label className="text-sm col-span-2">Адрес</label>
           <Input {...register('address')} placeholder="Москва" />
         </div>
         <div>
@@ -50,11 +54,13 @@ const PersonalDetailForm: React.FC = () => {
           {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
         </div>
         <div>
-          <label className="text-sm">Phone</label>
+          <label className="text-sm">Телефон</label>
           <Input {...register('phone')} placeholder="+7 123 456 78 90" />
         </div>
       </div>
     </FormSection>
   );
 };
-export default PersonalDetailForm;
+
+// Используем memo для оптимизации производительности
+export default memo(PersonalDetailForm);

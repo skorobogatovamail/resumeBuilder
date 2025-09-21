@@ -7,9 +7,10 @@ import { store } from './store';
 import App from './App.tsx';
 
 import './index.css';
-import Dashboard from './components/pages/Dashboard/index.tsx';
-import Home from './components/pages/Home/index.tsx';
-import EditResume from './components/pages/EditResume/index.tsx';
+// Импортируем компоненты из features
+import Home from './features/home/components/Home.tsx';
+import Dashboard from './features/resume/components/Dashboard.tsx';
+import EditResume from './features/resume/components/EditResume.tsx';
 
 const router = createBrowserRouter([
   {

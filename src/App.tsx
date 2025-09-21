@@ -1,15 +1,12 @@
 import { Outlet } from 'react-router-dom';
-import Header from './components/shared/Header';
 import './App.css';
-import { Toaster } from './components/ui/sonner';
+import MainLayout from './layouts/MainLayout';
 
 function App() {
   return (
-    <>
-      <Header />
+    <MainLayout>
       <Outlet />
-      <Toaster />
-    </>
+    </MainLayout>
   );
 }
 
